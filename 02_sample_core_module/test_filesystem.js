@@ -12,3 +12,5 @@ fs.readdir('./', function(err, files){
         console.log('Files in this directory are: ' + files);
     }
 });
+
+// ini test notes untuk git
