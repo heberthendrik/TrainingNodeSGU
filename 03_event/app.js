@@ -23,17 +23,15 @@ json object
 */
 
 const EventEmitter = require('events');
-const emitter = new EventEmitter();
+
+const Logger = require('./logger');
+const logger = new Logger();
 
 // Register a listener
-emitter.on('messageLogged', function(arg){
+logger.on('messageLogged', function(arg){
     // varilable arg, yang bisa kalian pakai
     // isi di dalam arg => json object dengan ID 1, dan url bla bla bla
     console.log('Listener called', arg);
 });
 
-
-const Logger = require('./logger');
-const logger = new Logger();
-
-Logger('ini test message');
+logger.log('ini test message');
