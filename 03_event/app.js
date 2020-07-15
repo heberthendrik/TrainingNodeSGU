@@ -22,8 +22,6 @@ json object
 
 */
 
-const EventEmitter = require('events');
-
 const Logger = require('./logger');
 const logger = new Logger();
 
