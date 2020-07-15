@@ -13,7 +13,7 @@ dan secara paksa menjawab seluruh pertanyaan wizard dengan enter, bisa dengan ek
 npm init --yes
 
 5. setiap kali kalian npm init, maka package.json file yang sudah ada, 
-akan di replace dan tergantikan dengan yang baru
+akan di replace dan tergantikan dengan yang baru`
 (Jadi, hati-hati dengan penggunaan command ini)
 
 6. apabila package.json tidak sengaja terhapus, ga masalah, karena 
@@ -25,3 +25,12 @@ Karena package.json akan menyimpan dependency dari semua module yang kalian guna
 node app kalian. Jadi sebaiknya, file tersebut sebisa mungkin di backup.
 
 */
+
+var my_underscore = require('underscore');
+
+// 1. core module
+// 2. file atau folder
+// 3. node modules 
+
+var result = my_underscore.contains([1, 2, 3], 5);
+console.log(result);
