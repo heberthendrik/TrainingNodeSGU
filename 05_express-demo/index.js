@@ -1,9 +1,19 @@
+// npm init --yes
+// npm i express
+
 // ENVIRONMENT VARILABLE
-
-
+// export PORT=5000
+// set PORT=5000
 
 const express = require('express');
 const app = express();
+
+
+/*
+*
+* ROUTES HANDLER
+*
+*/
 
 // HTTP REQUEST HANDLER DI ROOT
 app.get("/", (req, res) => {
@@ -30,9 +40,12 @@ app.get("/api/courses/:id", (req, res) => {
 
 
 
+/*
+*
+* START WEB SERVICE
+*
+*/
 
-
-// PORT
 const port = process.env.PORT || 3000;
 
 app.listen(port, () => {
