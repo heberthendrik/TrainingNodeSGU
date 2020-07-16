@@ -65,13 +65,18 @@ app.post("/api/courses", (req, res) => {
     const course = {
         id: courses.length + 1,
         name: req.body.name
-    }
+    };
     courses.push(course);
-    // res.send(course);
-    return null;
+    res.send(course);
 });
 
 
+
+// untuk buat transaksi baru
+// URL: /api/transactions
+
+// untuk lihat seluruh transaksi yang pernah dibuat
+// URL: /api/transactions (post)
 
 
 
