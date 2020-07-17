@@ -1,39 +1,13 @@
-// npm init --yes
-// npm i express
-
-// ENVIRONMENT VARILABLE
-// export PORT=5000
-// set PORT=5000
-
-// app.get()    --> ambil data
-// app.post()   --> create data
-// app.put()    --> update data
-// app.delete() --> delete data
-
 const express = require('express');
 const app = express();
 
 app.use(express.json());
 
-
 /*
 *
-* ROUTES HANDLER
+* LOCAL VARILABLE, DATABASE COURSE
 *
 */
-
-// HTTP REQUEST HANDLER DI ROOT
-
-
-/*
-NOTE
-1. dalam 1 rute, kalian hanya bisa punya 1 respond.
-2. bayangkan ROUTE adalah ibarat jabat tangan
-3. HTTP request dikirim ke server, bayangkan itu adalah orang yang mau jabat tangan sama kita
-4. Saat kita sudah jabat tangan dengan orang tersebut, maka klo ada orang lain yang 
-mau jabat tangan juga dengan kalian, tidak bisa.
-*/
-
 
 const courses = [
     { id: 1, name: 'course1' },
@@ -47,20 +21,32 @@ app.get("/", (req, res) => {
 });
 */
 
-// HTTP REQUEST HANDLER DI /API/COURSES
+
+/*
+*
+* WEB SERVICE UNTUK RETURN ALL COURSES
+*
+*/
 app.get("/api/courses", (req, res) => {
     res.send( courses );
 });
 
-// ROUTE PARAMETER
-// /api/courses/1
+/*
+* 
+* WEB SERVICE UNTUK RETURN 1 OBJECT COURSE BY COURSE ID
+*
+*/
 app.get("/api/courses/:id", (req, res) => {
-    const course = courses.find( c => c.id === parseInt(req.params.id) );
+    const course = courses.find( array_course => array_course.id === parseInt(req.params.id) );
     if( !course ) res.status(404).send('The course with the given ID was not found.');
     res.send(course);
 });
 
-// POST -> gunanya untuk create data
+/*
+*
+* WEB SERVICE UNTUK ADD 1 DATA BARU KE DALAM MASTER DATA COURSES
+*
+*/
 app.post("/api/courses", (req, res) => {
     const course = {
         id: courses.length + 1,
@@ -69,19 +55,6 @@ app.post("/api/courses", (req, res) => {
     courses.push(course);
     res.send(course);
 });
-
-
-
-// untuk buat transaksi baru
-// URL: /api/transactions
-
-// untuk lihat seluruh transaksi yang pernah dibuat
-// URL: /api/transactions (post)
-
-
-
-
-
 
 
 
