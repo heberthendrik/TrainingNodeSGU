@@ -29,10 +29,11 @@
                         console.table(courses);
                         console.log('success');
                         
+                        
                         for( i=0;i<courses.length;i++ ){
-                            // alert(courses[i].name);
                             document.getElementById('show_result').innerHTML += "<div>ID: " + courses[i].id + "NAME: " + courses[i].name + "</div>";
                         }
+                        
 
                     } else {
                         console.error(courses);
