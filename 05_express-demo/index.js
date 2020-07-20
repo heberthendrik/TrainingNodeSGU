@@ -11,9 +11,10 @@ app.use(express.json());
 */
 
 const courses = [
-    { id: 1, name: 'course1' },
-    { id: 2, name: 'course2' },
-    { id: 3, name: 'course3' }
+    { id: 1, name: 'Matematika' },
+    { id: 2, name: 'Kimia' },
+    { id: 3, name: 'Fisika' },
+    { id: 4, name: 'Web Programming' }
 ];
 
 /*
