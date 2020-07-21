@@ -1,141 +1,149 @@
-<html>
-    <head>
-        <title>Test API Frontend</title>
-    </head>
-    <body>
-        <h1>
-            Test API Frontend Website
-        </h1>
-        
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>Test API Frontend</title>
 
-        <div>
-            <button onclick="GetAllCourses();">Get All Course</button>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+
+    <title>Test HTTP Request to Node.js</title>
+
+    <style>
+        .col-md-3{
+            text-align:center;background:#eee;border-radius: 15px;padding:15px;
+        }
+
+        button{
+            background:#fff;
+        }
+    </style>
+  </head>
+  <body style="padding:20px;">
+    <!-- <h1>Hello, world!</h1> -->
+
+    <div class="row">
+
+        <div class="col-md-3">
+            <div>GET ALL COURSES</div>
+            <div><button onclick="GetAllCourses();">Trigger HTTP Request</button></div>
+            <div style="background:#000;border-radius:15px;color:#fff;">
+                <div id="show_result_GetAllCourses"></div>
+            </div>
         </div>
 
-        <div>
-            <button onclick="">Get Single Course</button>
+        <div class="col-md-3">
+            <div>GET COURSE DETAIL</div>
+            <div><input type="number" placeholder="Course ID" id="id_GetCourseDetail" /></div>
+            <div><button onclick="GetCourseDetail(document.getElementById('id_GetCourseDetail').value);">Trigger HTTP Request</button></div>
+            <div style="background:#000;border-radius:15px;color:#fff;">
+                <div id="show_result_GetCourseDetail"></div>
+            </div>
         </div>
 
-        <div>
-            <button onclick="">Update Course</button>
+        <div class="col-md-3">
+            <div>REGISTER NEW COURSE</div>
+            <div><input type="text" placeholder="New Course Name" id="name_AddNewCourse" /></div>
+            <div><button onclick="AddNewCourse(document.getElementById('name_AddNewCourse').value);">Trigger HTTP Request</button></div>
+            <div style="background:#000;border-radius:15px;color:#fff;">
+                <div id="show_result_AddNewCourse"></div>
+            </div>
         </div>
 
-        <div>
-            <button onclick="">Delete Course</button>
-        </div>
+    </div>
 
-        <div>
-            <button onclick="">Create Course</button>
-        </div>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
 
+    <script>
 
-
-
-
-
-
-        <div>
-            <div id="show_result"></div>
-        </div>
-
-        <script>
-
-            function GetAllCourses(){
-                // Get all courses
-                var url  = "http://localhost:3000/api/courses";
-                var xhr  = new XMLHttpRequest()
-                xhr.open('GET', url, true)
-                xhr.onload = function () {
-                    var courses = JSON.parse(xhr.responseText);
-                    if (xhr.readyState == 4 && xhr.status == "200") {
-                        console.table(courses);
-                        console.log('success');
-                        
-                        
-                        for( i=0;i<courses.length;i++ ){
-                            document.getElementById('show_result').innerHTML += "<div>ID: " + courses[i].id + "NAME: " + courses[i].name + "</div>";
-                        }
-                        
-
-                    } else {
-                        console.error(courses);
-                        console.log('Error');
+        function GetAllCourses(){
+            // Get all courses
+            var url  = "http://localhost:3000/api/courses";
+            var xhr  = new XMLHttpRequest()
+            xhr.open('GET', url, true)
+            xhr.onload = function () {
+                var courses = JSON.parse(xhr.responseText);
+                if (xhr.readyState == 4 && xhr.status == "200") {
+                    console.table(courses);
+                    console.log('success');
+                    
+                    document.getElementById('show_result_GetAllCourses').innerHTML = "";
+                    for( i=0;i<courses.length;i++ ){
+                        document.getElementById('show_result_GetAllCourses').innerHTML += "<div>ID: " + courses[i].id + "NAME: " + courses[i].name + "</div>";
                     }
+                    
+
+                } else {
+                    console.error(courses);
+                    console.log('Error');
                 }
-                xhr.send(null);	
             }
+            xhr.send(null);	
+        }
 
 
-            function GetUserDetail(){
-                // Get a user
-                var url  = "http://localhost:8080/api/v1/users";
-                var xhr  = new XMLHttpRequest()
-                xhr.open('GET', url+'/1', true)
-                xhr.onload = function () {
-                    var users = JSON.parse(xhr.responseText);
-                    if (xhr.readyState == 4 && xhr.status == "200") {
-                        console.table(users);
-                    } else {
-                        console.error(users);
-                    }
+        function GetCourseDetail(course_id){
+
+            // Get a user
+            var url  = "http://localhost:3000/api/courses";
+            var xhr  = new XMLHttpRequest()
+            xhr.open('GET', url+'/'+course_id, true)
+            xhr.onload = function () {
+                var courses = JSON.parse(xhr.responseText);
+                if (xhr.readyState == 4 && xhr.status == "200") {
+                    console.table(courses);
+                } else {
+                    console.error(courses);
                 }
-                xhr.send(null);	
             }
+            xhr.send(null);	
+        }
 
 
-            function PostUser(){
-                // Post a user
-                var url = "http://localhost:8080/api/v1/users";
+        function AddNewCourse(name){
+            // Post a user
+            var url = "http://localhost:3000";
 
-                var data = {};
-                data.firstname = "John";
-                data.lastname  = "Snow";
-                var json = JSON.stringify(data);
+            var data = {};
+            // data.firstname = "John";
+            // data.lastname  = "Snow";
+            data.name = name;
+            var json = JSON.stringify(data);
 
-                var xhr = new XMLHttpRequest();
-                xhr.open("POST", url, true);
-                xhr.setRequestHeader('Content-type','application/json; charset=utf-8');
-                xhr.onload = function () {
-                    var users = JSON.parse(xhr.responseText);
-                    if (xhr.readyState == 4 && xhr.status == "201") {
-                        console.table(users);
-                    } else {
-                        console.error(users);
-                    }
-                }
-                xhr.send(json);	
-            }
-
-
-            function UpdateUser(){
-                // Update a user
-                var url = "http://localhost:8080/api/v1/users";
-
-                var data = {};
-                data.firstname = "John2";
-                data.lastname  = "Snow2";
-                var json = JSON.stringify(data);
-
-                var xhr = new XMLHttpRequest();
-                xhr.open("PUT", url+'/12', true);
-                xhr.setRequestHeader('Content-type','application/json; charset=utf-8');
-                xhr.onload = function () {
-                    var users = JSON.parse(xhr.responseText);
-                    if (xhr.readyState == 4 && xhr.status == "200") {
-                        console.table(users);
-                    } else {
-                        console.error(users);
-                    }
-                }
-                xhr.send(json);
-            }
-
-
-            function DeleteUser(){
-            // Delete a user
-            var url = "http://localhost:8080/api/v1/users";
             var xhr = new XMLHttpRequest();
-            xhr.open("DELETE", url+'/12', true);
+            xhr.open("POST", url, true);
+            xhr.setRequestHeader('Content-Type','application/json; charset=utf-8');
+            xhr.onload = function () {
+                var courses = JSON.parse(xhr.responseText);
+                if (xhr.readyState == 4 && xhr.status == "201") {
+                    console.table(courses);
+                } else {
+                    console.error(courses);
+                }
+            }
+            xhr.send(json);	
+        }
+
+
+        function UpdateUser(){
+            // Update a user
+            var url = "http://localhost:8080/api/v1/users";
+
+            var data = {};
+            data.firstname = "John2";
+            data.lastname  = "Snow2";
+            var json = JSON.stringify(data);
+
+            var xhr = new XMLHttpRequest();
+            xhr.open("PUT", url+'/12', true);
+            xhr.setRequestHeader('Content-type','application/json; charset=utf-8');
             xhr.onload = function () {
                 var users = JSON.parse(xhr.responseText);
                 if (xhr.readyState == 4 && xhr.status == "200") {
@@ -144,11 +152,36 @@
                     console.error(users);
                 }
             }
-            xhr.send(null);
+            xhr.send(json);
         }
 
-        </script>
-            
 
-        </body>
-    </html>
+        function DeleteUser(){
+        // Delete a user
+        var url = "http://localhost:8080/api/v1/users";
+        var xhr = new XMLHttpRequest();
+        xhr.open("DELETE", url+'/12', true);
+        xhr.onload = function () {
+            var users = JSON.parse(xhr.responseText);
+            if (xhr.readyState == 4 && xhr.status == "200") {
+                console.table(users);
+            } else {
+                console.error(users);
+            }
+        }
+        xhr.send(null);
+    }
+
+    </script>
+
+
+  </body>
+</html>
+
+
+
+
+
+
+
+        
