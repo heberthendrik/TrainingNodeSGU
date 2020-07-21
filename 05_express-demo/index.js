@@ -124,12 +124,6 @@ app.put('/api/courses/:id', (req, res) => {
 */
 app.delete('/api/courses/:id', (req, res) => {
 
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
-    // res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
-
-    // console.log("Cari course ID: "+req.params.id);
-
     // cari course nya
     // klo ga ketemu, return 404 
     const course = courses.find( c => c.id === parseInt(req.params.id) );

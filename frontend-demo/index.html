@@ -46,10 +46,31 @@
 
         <div class="col-md-3">
             <div>DELETE COURSE</div>
-            <div><input type="text" placeholder="Course ID" id="id_DeleteCourse" /></div>
+            <div><input type="number" placeholder="Course ID" id="id_DeleteCourse" /></div>
             <div><button onclick="DeleteCourse(document.getElementById('id_DeleteCourse').value);">Trigger HTTP Request</button></div>
             <div style="background:#000;border-radius:15px;color:#fff;">
                 <div id="show_result_DeleteCourse"></div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div>ADD NEW COURSE</div>
+            <div><input type="text" placeholder="Course Name" id="name_AddNewCourse" /></div>
+            <div><button onclick="AddNewCourse(document.getElementById('name_AddNewCourse').value);">Trigger HTTP Request</button></div>
+            <div style="background:#000;border-radius:15px;color:#fff;">
+                <div id="show_result_AddNewCourse"></div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div>UPDATE COURSE</div>
+            <div>
+                <input type="number" placeholder="Course ID" id="id_UpdateCourse" />
+                <input type="text" placeholder="Course Name" id="name_UpdateCourse" />
+            </div>
+            <div><button onclick="UpdateCourse(document.getElementById('id_UpdateCourse').value, document.getElementById('name_UpdateCourse').value);">Trigger HTTP Request</button></div>
+            <div style="background:#000;border-radius:15px;color:#fff;">
+                <div id="show_result_UpdateCourse"></div>
             </div>
         </div>
 
@@ -63,30 +84,7 @@
 
     <script>
 
-        function DeleteCourse(course_id){
-
-        console.log("Console ID: "+course_id);
-
-        // Delete a course
-        var url = "http://localhost:3000/api/courses";
-        var xhr = new XMLHttpRequest();
-        xhr.open("DELETE", url+'/'+course_id, false);
-        xhr.setRequestHeader("Content-type", "application/json; charset=utf-8"); 
-        xhr.onload = function () {
-            // console.log(xhr.responseText);
-            var courses = JSON.parse(xhr.responseText);
-            if (xhr.readyState === 4 && xhr.status === "200") {
-                console.table(courses);
-                console.log("berhasil");
-            } else {
-                console.error(courses);
-            }
-        }
-        xhr.send(JSON.stringify(course_id));
-
-        console.log("proses selesai");
-        }
-
+        
 
 
 
@@ -107,7 +105,7 @@
                     
                     document.getElementById('show_result_GetAllCourses').innerHTML = "";
                     for( i=0;i<courses.length;i++ ){
-                        document.getElementById('show_result_GetAllCourses').innerHTML += "<div>ID: " + courses[i].id + "NAME: " + courses[i].name + "</div>";
+                        document.getElementById('show_result_GetAllCourses').innerHTML += "<div>ID: " + courses[i].id + " -- NAME: " + courses[i].name + "</div>";
                     }
                     
 
@@ -138,19 +136,19 @@
         }
 
 
-        function AddNewCourse(name){
+        function AddNewCourse(course_name){
             // Post a user
-            var url = "http://localhost:3000";
+            var url = "http://localhost:3000/api/courses";
 
             var data = {};
             // data.firstname = "John";
             // data.lastname  = "Snow";
-            data.name = name;
+            data.name = course_name;
             var json = JSON.stringify(data);
 
             var xhr = new XMLHttpRequest();
             xhr.open("POST", url, true);
-            xhr.setRequestHeader('Content-Type','application/json; charset=utf-8');
+            xhr.setRequestHeader("Content-Type","application/json; charset=utf-8");
             xhr.onload = function () {
                 var courses = JSON.parse(xhr.responseText);
                 if (xhr.readyState == 4 && xhr.status == "201") {
@@ -163,28 +161,54 @@
         }
 
 
-        function UpdateUser(){
+        function UpdateCourse(course_id, course_name){
+
             // Update a user
-            var url = "http://localhost:8080/api/v1/users";
+            var url = "http://localhost:3000/api/courses";
 
             var data = {};
-            data.firstname = "John2";
-            data.lastname  = "Snow2";
+            // data.firstname = "John2";
+            // data.lastname  = "Snow2";
+            data.name = course_name;
             var json = JSON.stringify(data);
 
             var xhr = new XMLHttpRequest();
-            xhr.open("PUT", url+'/12', true);
-            xhr.setRequestHeader('Content-type','application/json; charset=utf-8');
+            xhr.open("PUT", url+'/'+course_id, true);
+            xhr.setRequestHeader("Content-Type","application/json; charset=utf-8");
             xhr.onload = function () {
-                var users = JSON.parse(xhr.responseText);
+                var courses = JSON.parse(xhr.responseText);
                 if (xhr.readyState == 4 && xhr.status == "200") {
-                    console.table(users);
+                    console.table(courses);
                 } else {
-                    console.error(users);
+                    console.error(courses);
                 }
             }
             xhr.send(json);
         }
+
+        function DeleteCourse(course_id){
+
+            console.log("Console ID: "+course_id);
+
+            // Delete a course
+            var url = "http://localhost:3000/api/courses";
+            var xhr = new XMLHttpRequest();
+            xhr.open("DELETE", url+'/'+course_id, false);
+            xhr.setRequestHeader("Content-type", "application/json; charset=utf-8"); 
+            xhr.onload = function () {
+                // console.log(xhr.responseText);
+                var courses = JSON.parse(xhr.responseText);
+                if (xhr.readyState === 4 && xhr.status === "200") {
+                    console.table(courses);
+                    console.log("berhasil");
+                } else {
+                    console.error(courses);
+                }
+            }
+            xhr.send(null);
+
+        }
+
 
 
         
