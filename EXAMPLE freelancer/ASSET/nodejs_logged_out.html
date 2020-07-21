@@ -1006,11 +1006,11 @@
 						<form method="post" id="login-form">
 							<div class="input-with-icon-left">
 								<i class="icon-material-baseline-mail-outline"></i>
-								<input type="text" class="input-text with-border" name="emailaddress" id="login_email" placeholder="Email Address" required/>
+								<input type="text" class="input-text with-border" name="emailaddress" id="login_email" placeholder="Email Address" value="hebert.hendrik@gmail.com" required/>
 							</div>
 							<div class="input-with-icon-left">
 								<i class="icon-material-outline-lock"></i>
-								<input type="password" class="input-text with-border" name="password" id="login_password" placeholder="Password" required/>
+								<input type="password" class="input-text with-border" name="password" id="login_password" placeholder="Password" value="Bert10031988" required/>
 							</div>
 							<a href="#" class="forgot-password">Forgot Password?</a>
 						</form>
@@ -1049,15 +1049,15 @@
 							</div>
 							<div class="input-with-icon-left" title="Should be at least 8 characters long" data-tippy-placement="bottom">
 								<i class="icon-material-outline-lock"></i>
-								<input type="password" class="input-text with-border" name="password-register" placeholder="Password" id="register_password" value="password" required/>
+								<input type="password" class="input-text with-border" name="password-register" placeholder="Password" id="register_password" value="password" required onchange="ValidatePassword();"/>
 							</div>
 							<div class="input-with-icon-left">
 								<i class="icon-material-outline-lock"></i>
-								<input type="password" class="input-text with-border" name="password-repeat-register" id="register_confirm_password" placeholder="Repeat Password" required value="password" />
+								<input type="password" class="input-text with-border" name="password-repeat-register" id="register_confirm_password" placeholder="Repeat Password" required value="password" onchange="ValidatePassword();" />
 							</div>
 						</form>
 						<!-- Button -->
-						<button class="margin-top-10 button full-width button-sliding-icon ripple-effect" type="button" onclick="VerifyRegister();">Register <i class="icon-material-outline-arrow-right-alt"></i></button>
+						<button class="margin-top-10 button full-width button-sliding-icon ripple-effect" type="button" onclick="VerifyRegister();" id="register_button">Register <i class="icon-material-outline-arrow-right-alt"></i></button>
 						<!-- Social Login -->
 						<div class="social-login-separator"><span>or</span></div>
 						<div class="social-login-buttons">
@@ -1122,10 +1122,47 @@
 
 		<script>
 
+			function ValidatePassword(){
+
+				register_password = document.getElementById('register_password').value;
+				register_confirm_password = document.getElementById('register_confirm_password').value;
+				register_button = document.getElementById('register_button');
+
+				if( register_password != register_confirm_password ){
+					register_button.disabled = "true";
+					// document.getElementById('registration_result').innerHTML = "password does not match";
+				} else {
+					register_button.disabled = "false";
+					// document.getElementById('registration_result').innerHTML = "password match";
+
+				}
+			}
+
 			function VerifyLogin(){
 				login_email = document.getElementById('login_email').value;
 				login_password = document.getElementById('login_password').value;
-				
+
+				var url = "http://localhost:3000/api/users/"+login_email+"/"+login_password;
+
+	            var data = {};
+	            data.email = register_email;
+	            data.password = register_password;
+				var json = JSON.stringify(data);
+
+	            var xhr = new XMLHttpRequest();
+	            xhr.open('GET', url, true);
+	            xhr.onload = function() {
+	            	console.log(xhr.responseText);
+	            	
+	                var respond = JSON.parse(xhr.responseText);
+	                if (xhr.readyState == 4 && xhr.status == "200") {
+	                	console.log(respond);
+	                } else {
+	                    console.error(respond);
+	                    alert(respond.message);
+	                }
+	            }
+	            xhr.send(null);
 			}
 
 			function VerifyRegister(){

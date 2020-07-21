@@ -14,7 +14,7 @@ app.use((req, res, next) => {
 
 // TEMPORARY MASTER DATA USER
 const users = [
-    { id: 1, email: 'hebert.hendrik@gmail.com', password: 'P@ssw0rd' }
+    { id: 1, email: 'hebert.hendrik@gmail.com', password: 'Bert10031988' }
 ];
 
 
@@ -47,7 +47,7 @@ app.get('/api/users/:email/:password', (req, res) => {
     console.log(req.body);
 
     // VALIDATE
-    const {error} = validateUser(req.body);
+    const {error} = validateUser(req.params);
     if (error) {
         console.log('Validation error');
 
