@@ -1006,16 +1006,16 @@
 						<form method="post" id="login-form">
 							<div class="input-with-icon-left">
 								<i class="icon-material-baseline-mail-outline"></i>
-								<input type="text" class="input-text with-border" name="emailaddress" id="emailaddress" placeholder="Email Address" required/>
+								<input type="text" class="input-text with-border" name="emailaddress" id="login_email" placeholder="Email Address" required/>
 							</div>
 							<div class="input-with-icon-left">
 								<i class="icon-material-outline-lock"></i>
-								<input type="password" class="input-text with-border" name="password" id="password" placeholder="Password" required/>
+								<input type="password" class="input-text with-border" name="password" id="login_password" placeholder="Password" required/>
 							</div>
 							<a href="#" class="forgot-password">Forgot Password?</a>
 						</form>
 						<!-- Button -->
-						<button class="button full-width button-sliding-icon ripple-effect" type="submit" form="login-form">Log In <i class="icon-material-outline-arrow-right-alt"></i></button>
+						<button class="button full-width button-sliding-icon ripple-effect" type="button" form="login-form" onclick="VerifyLogin();">Log In <i class="icon-material-outline-arrow-right-alt"></i></button>
 						<!-- Social Login -->
 						<div class="social-login-separator"><span>or</span></div>
 						<div class="social-login-buttons">
@@ -1040,6 +1040,7 @@
 								<label for="employer-radio" class="ripple-effect-dark"><i class="icon-material-outline-business-center"></i> Employer</label>
 							</div>
 						</div>
+						<div id="registration_result" style="margin-bottom:15px;color:grey;"></div>
 						<!-- Form -->
 						<form method="post" id="register-account-form">
 							<div class="input-with-icon-left">
@@ -1120,6 +1121,13 @@
 		</script>
 
 		<script>
+
+			function VerifyLogin(){
+				login_email = document.getElementById('login_email').value;
+				login_password = document.getElementById('login_password').value;
+				
+			}
+
 			function VerifyRegister(){
 
 				register_email = document.getElementById('register_email').value;
@@ -1127,7 +1135,9 @@
 				register_confirm_password = document.getElementById('register_confirm_password').value;
 
 				if( register_password != register_confirm_password ){
+
 					alert('Your password does not match');
+
 				} else {
 
 					var url = "http://localhost:3000/api/users";
@@ -1145,10 +1155,10 @@
 		            	
 		                var respond = JSON.parse(xhr.responseText);
 		                if (xhr.readyState == 4 && xhr.status == "200") {
-		                    alert("You have been successfully registered. You can now login.");
+		                    document.getElementById('registration_result').innerHTML = "You have been successfully registered. You can now login.";
 		                } else {
 		                    console.error(respond);
-		                    alert(respond.message);
+		                    document.getElementById('registration_result').innerHTML = respond.message;
 		                }
 		            }
 		            xhr.send(json);
