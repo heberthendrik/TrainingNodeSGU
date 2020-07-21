@@ -1,8 +1,15 @@
 const Joi = require('joi');
 const express = require('express');
+const bodyParser = require('body-parser');
+const cors = require('cors');
+
+
+
 const app = express();
 
-app.use(express.json());
+app.use(cors());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 
 /*
 *
@@ -117,17 +124,25 @@ app.put('/api/courses/:id', (req, res) => {
 */
 app.delete('/api/courses/:id', (req, res) => {
 
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+    // res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+
+    // console.log("Cari course ID: "+req.params.id);
+
     // cari course nya
     // klo ga ketemu, return 404 
     const course = courses.find( c => c.id === parseInt(req.params.id) );
-    if( !course ) res.status(404).send('The course with the given ID was not found.');
+    if( !course ) return res.status(404).send('The course with the given ID was not found.');
 
     // delete
     const index = courses.indexOf(course);
     courses.splice(index, 1);
 
+    console.log("Course ID "+req.params.id+" telah berhasil dihapus");
+
     // return course yang berhasil dihapus
-    res.send(course);
+    return res.send(course);
 
 });
 

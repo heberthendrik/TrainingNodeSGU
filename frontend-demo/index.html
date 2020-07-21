@@ -45,11 +45,11 @@
         </div>
 
         <div class="col-md-3">
-            <div>REGISTER NEW COURSE</div>
-            <div><input type="text" placeholder="New Course Name" id="name_AddNewCourse" /></div>
-            <div><button onclick="AddNewCourse(document.getElementById('name_AddNewCourse').value);">Trigger HTTP Request</button></div>
+            <div>DELETE COURSE</div>
+            <div><input type="text" placeholder="Course ID" id="id_DeleteCourse" /></div>
+            <div><button onclick="DeleteCourse(document.getElementById('id_DeleteCourse').value);">Trigger HTTP Request</button></div>
             <div style="background:#000;border-radius:15px;color:#fff;">
-                <div id="show_result_AddNewCourse"></div>
+                <div id="show_result_DeleteCourse"></div>
             </div>
         </div>
 
@@ -62,6 +62,37 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
 
     <script>
+
+        function DeleteCourse(course_id){
+
+        console.log("Console ID: "+course_id);
+
+        // Delete a course
+        var url = "http://localhost:3000/api/courses";
+        var xhr = new XMLHttpRequest();
+        xhr.open("DELETE", url+'/'+course_id, false);
+        xhr.setRequestHeader("Content-type", "application/json; charset=utf-8"); 
+        xhr.onload = function () {
+            // console.log(xhr.responseText);
+            var courses = JSON.parse(xhr.responseText);
+            if (xhr.readyState === 4 && xhr.status === "200") {
+                console.table(courses);
+                console.log("berhasil");
+            } else {
+                console.error(courses);
+            }
+        }
+        xhr.send(JSON.stringify(course_id));
+
+        console.log("proses selesai");
+        }
+
+
+
+
+
+
+
 
         function GetAllCourses(){
             // Get all courses
@@ -156,21 +187,11 @@
         }
 
 
-        function DeleteUser(){
-        // Delete a user
-        var url = "http://localhost:8080/api/v1/users";
-        var xhr = new XMLHttpRequest();
-        xhr.open("DELETE", url+'/12', true);
-        xhr.onload = function () {
-            var users = JSON.parse(xhr.responseText);
-            if (xhr.readyState == 4 && xhr.status == "200") {
-                console.table(users);
-            } else {
-                console.error(users);
-            }
+        
+
+        function removeByteOrderMark(str){
+            return str.replace(/^\ufeff/g,"")
         }
-        xhr.send(null);
-    }
 
     </script>
 
